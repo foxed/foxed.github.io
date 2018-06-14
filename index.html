@@ -1,34 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
+<meta charset="utf-8">
 <head>
+  <title>🦊⚔️🦊</title>
+  <meta name="description" content="alex fox">
   <link rel="stylesheet" type="text/css" href="public/styles.css">
-  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="public/jquery-ui.css"/>
+  <script src="scripts/jquery-3.2.1.min.js"></script>
+  <script src="scripts/jquery-ui.min.js"></script>
+
 </head>
 
-<body>
-
-  <div class="intro">
-    <h1>
-      <a href="http://hotlinewebring.club/foxed/previous" class="link">&laquo;</a>
-      alex fox
-      <a href="http://hotlinewebring.club/foxed/next" class="link">&raquo;</a>
-    </h1>
-    <p>
-      software developer at autodesk
-    </p>
-    <p>
-      <a href="https://github.com/foxed" class="link">github</a> *
-      <a href="https://foxed.ghost.io" class="link">blog</a> *
-      <a href="https://www.linkedin.com/pub/alex-fox/20/157/185" class="link">linkedin</a>
-    </p>
-    <p>
-      <a href="throwback.html" class="link">throwback style</a>
-    </p>
-    <p>
-      <a href="mailto:alexdysonfox@gmail.com" class="link">alexdysonfox@gmail.com</a>
-    </p>
+<body class="noselect cursor">
+  <div id="icons">
+    <div id="github" class="icon github">
+      <div class="github">
+        <div class="icon_text"><a href="https://github.com/foxed" style="text-decoration:none">github</a></div>
+      </div>
+    </div>
+    <div id="blog" class="icon blog">
+      <div class="blog">
+        <div class="icon_text"><a href="https://foxed.ghost.io" style="text-decoration:none">blog</a></div>
+      </div>
+    </div>
+    <div id="linkedin" class="icon linkedin">
+      <div class="linkedin">
+        <div class="icon_text"><a href="https://www.linkedin.com/pub/alex-fox/20/157/185" style="text-decoration:none">linked</a>
+      </div>
+      </div>
+    </div>
+    <div id="photo" class="icon photo">
+      <div class="photo">
+        <div class="icon_text">stuff</div>
+      </div>
+    </div>
+    <div id="contact" class="icon contact">
+      <div class="contact">
+      </div>
+    </div>
+  </div>
+  
+  <div id="win_contact" class="win drag resize" hidden="hidden">
+    <div id="pnav_contact" >
+      <span>Contact</span>
+      <img class="pbuttons close" src="images/close.png">
+      <img class="pbuttons" src="images/max.png">
+      <img class="pbuttons" src="images/min.png">
+    </div>
+      <canvas id="contact_canvas" width="600" height="325">email me</canvas>
+    <div class="noter">
+      <div class="notebox">alexdysonfox@gmail.com</div>
+      <div class="notebox">&nbsp;</div>
+    </div>
   </div>
 
+ <div id="win_photo" class="win drag resize" hidden="hidden">
+    <div id="pnav_photo" >
+      <span>photo</span>
+      <img class="pbuttons close" src="images/close.png">
+      <img class="pbuttons" src="images/max.png">
+      <img class="pbuttons" src="images/min.png">
+    </div>
+      <canvas id="photo_canvas" width="600" height="325">fsd</canvas>
+    <div class="noter">
+      <div class="notebox">random assortment of stuff i like</div>
+      <div class="notebox">&nbsp;</div>
+    </div>
+  </div>
 </body>
+<script src="scripts/dom.js"></script>
+<script src="scripts/contactCanvas.js"></script>
+<script src="scripts/photoCanvas.js"></script>
 </html>
+
