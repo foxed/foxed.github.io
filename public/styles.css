@@ -27,10 +27,11 @@ body{
     color: #FFFFFF;
     padding: 0 0 2px 2px;
   }
-  #win_contact{
+
+  #win_about{
     position: absolute;
     background: #C0C0C0;
-    left: 40px  ;
+    left: 200px  ;
     top: 10vh;
     margin: auto;
     width: 600px;
@@ -42,52 +43,19 @@ body{
     border-bottom-color: #000000;
   }
 
-  #pnav_contact{
-    margin: 2px 0 0 2px;
-    background-color: #00007f;
-    width: calc(100% - 6px);
-    height: 16px;
-    color: #FFFFFF;
-    padding: 0 0 2px 2px;
-  }
-  .pbuttons{
-    float: right;
-    padding: 2px 2px 2px 0;
-  }
-
-  #canvas{
-    width: calc(100% - 4px);
-    height: calc(100% - 46px);
-    margin: 1px 1px 0;
-    border: 1px solid #000000;
-    border-right-color: #FFFFFF;
-    border-bottom-color: #FFFFFF;
-  }
-
-  .noter{
+  #win_contact{
     position: absolute;
-    bottom: 0; 
-    margin: 0 1px 1px 1px;
-    width: calc(100% - 4px);
     background: #C0C0C0;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: row; 
-    flex-direction: row;
-    -webkit-justify-content: flex-start;
-    justify-content: flex-start;
-  }
-
-  .notebox{  
-    flex-grow: 1;
+    left: 250px  ;
+    top: 15vh;
     margin: auto;
-    width: auto;
-    padding-left: 1px;
-    padding-right: 0px;
-    color: #000000;
-    border: 1px solid #929292;
-    border-right-color: #FFFFFF;
-    border-bottom-color: #FFFFFF;
+    width: 600px;
+    height: 325px;
+    min-width: 260px;
+    min-height: 120px;
+    border: 1px solid #FFFFFF;
+    border-right-color: #000000;
+    border-bottom-color: #000000;
   }
 
   #win_photo{
@@ -104,18 +72,15 @@ body{
     border-right-color: #000000;
     border-bottom-color: #000000;
   }
-  
-  #pnav_photo{
+
+
+  #pnav_contact, #pnav_photo, #pnav_about{
     margin: 2px 0 0 2px;
     background-color: #00007f;
     width: calc(100% - 6px);
     height: 16px;
     color: #FFFFFF;
     padding: 0 0 2px 2px;
-  }
-  .pbuttons{
-    float: right;
-    padding: 2px 2px 2px 0;
   }
 
   #canvas{
@@ -151,6 +116,33 @@ body{
     border: 1px solid #929292;
     border-right-color: #FFFFFF;
     border-bottom-color: #FFFFFF;
+  }
+
+  .pbuttons{
+    float: right;
+    padding: 2px 2px 2px 0;
+  }
+
+  #canvas{
+    width: calc(100% - 4px);
+    height: calc(100% - 46px);
+    margin: 1px 1px 0;
+    border: 1px solid #000000;
+    border-right-color: #FFFFFF;
+    border-bottom-color: #FFFFFF;
+  }
+
+  #about{
+    position: absolute;
+    top: 150px;
+    left: 400px;
+    width: 55px;
+  }
+  .about_icon{
+    background: url("../images/computer.png") no-repeat;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 100%;
   }
 
   #icons{  
@@ -228,7 +220,6 @@ body{
     padding-bottom: 20px;
     display:none;
   }
-
 
   .noselect 
   {
