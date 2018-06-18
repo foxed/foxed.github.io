@@ -32,55 +32,29 @@ body{
     position: absolute;
     background: #C0C0C0;
     left: 200px  ;
-    top: 10vh;
-    margin: auto;
-    width: 600px;
-    height: 325px;
-    min-width: 260px;
-    min-height: 120px;
-    border: 1px solid #FFFFFF;
-    border-right-color: #000000;
-    border-bottom-color: #000000;
-  }
-
-  #win_about{
-    position: absolute;
-    background: #C0C0C0;
-    left: 250px  ;
-    top: 15vh;
-    margin: auto;
-    width: 600px;
-    height: 325px;
-    min-width: 260px;
-    min-height: 120px;
-    border: 1px solid #FFFFFF;
-    border-right-color: #000000;
-    border-bottom-color: #000000;
-  }
-
-  #win_photo{
-    position: absolute;
-    background: #C0C0C0;
-    left: 300px  ;
     top: 20vh;
     margin: auto;
     width: 600px;
     height: 325px;
-    min-width: 260px;
-    min-height: 120px;
+    min-width: 300px;
+    min-height: 340px;
     border: 1px solid #FFFFFF;
     border-right-color: #000000;
     border-bottom-color: #000000;
   }
 
-
-  #pnav_about, #pnav_photo, #pnav_about{
+  #pnav_about {
     margin: 2px 0 0 2px;
     background-color: #00007f;
     width: calc(100% - 6px);
     height: 16px;
     color: #FFFFFF;
     padding: 0 0 2px 2px;
+  }
+  #pnav_about span {
+    font-size: 12px;
+    vertical-align: middle;
+    line-height: 2;
   }
 
   #canvas{
@@ -215,10 +189,6 @@ body{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-
-  .cursor {
-    cursor:url(../images/cursor.cur), auto;
   }
 
   #about_canvas{

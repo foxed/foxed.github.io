@@ -18,30 +18,35 @@ $(function () {
     $('.close').click(function () {
         close($(this).closest(".win"));
     });
+
     function openAbout() {
-        $("#win_about").show();
-        drawInPosition();
-        handleClick('about');
+      $("#win_about").show();
+      drawInPosition();
+      handleClick('about');
     }
+
+    window.onload = (function () {
+      openAbout();
+    });    
+
 
     function close(element) {
-    if (!element.is('#win_photo')) {
+    if (!element.is('#win_about')) {
     }
-    element.hide()
+      element.hide()
     }
-
     function isMobile() {
-        return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) )
+      return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) )
     }
 
     if (isMobile()) {
-        $('.icon.about').click(function () {
-            openAbout();
-        });    
+      $('.icon.about').click(function () {
+        openAbout();
+      });    
     } else {
-        $('.icon.about').dblclick(function () {
-            openAbout()
-        });      
+      $('.icon.about').dblclick(function () {
+        openAbout()
+      });      
     }
-
 });
+
