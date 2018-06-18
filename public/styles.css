@@ -217,3 +217,9 @@ body{
   #container canvas, #overlay {
     position: absolute;
   }
+
+  .email a{
+    font-size: 25px;
+    vertical-align: middle;
+    line-height: 2;
+  }
