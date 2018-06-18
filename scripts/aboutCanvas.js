@@ -1,5 +1,5 @@
-var photo_canvas = $('#photo_canvas')[0];
-context = photo_canvas .getContext('2d');
+var about_canvas = $('#about_canvas')[0];
+context = about_canvas .getContext('2d');
 var x = 45;
 var y = -3;
 
@@ -16,11 +16,11 @@ ms.onload = function () {
     drawInPosition();
 };
 
-$('#pnav_photo').mousemove(function (e) {
+$('#pnav_about').mousemove(function (e) {
 
     if (e.which == 1) {
-        x = 40 + $('#win_photo')[0].getBoundingClientRect().left / 15;
-        y = 3 - $('#win_photo')[0].getBoundingClientRect().top / 20;
+        x = 40 + $('#win_about')[0].getBoundingClientRect().left / 15;
+        y = 3 - $('#win_about')[0].getBoundingClientRect().top / 20;
         drawInPosition();
 
     }

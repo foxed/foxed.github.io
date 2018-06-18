@@ -7,15 +7,10 @@ $(function () {
     $("#win").draggable({
         handle: "#pnav"
     });
-    $("#win_contact").draggable({
-        handle: "#pnav_contact"
-    });
-
-    $("#win_photo").draggable({
-        handle: "#pnav_photo"
+    $("#win_about").draggable({
+        handle: "#pnav_about"
     });
     $(".icon").draggable();
-    $(".about_icon").draggable();
     $('#canvas').click(function () {
         changeColors();
         clear();
@@ -23,15 +18,10 @@ $(function () {
     $('.close').click(function () {
         close($(this).closest(".win"));
     });
-    function openContact() {
-        $("#win_contact").show();
+    function openAbout() {
+        $("#win_about").show();
         drawInPosition();
-        handleClick('contact');
-    }
-    function openPhoto() {
-        $("#win_photo").show();
-        drawInPosition();
-        handleClick('photo');
+        handleClick('about');
     }
 
     function close(element) {
@@ -45,19 +35,13 @@ $(function () {
     }
 
     if (isMobile()) {
-        $('.icon.contact').click(function () {
-            openContact();
-        });
-        $('.icon.photo').click(function () {
-            openContact();
-        });
+        $('.icon.about').click(function () {
+            openAbout();
+        });    
     } else {
-        $('.icon.contact').dblclick(function () {
-            openContact()
-        });
-        $('.icon.photo').dblclick(function () {
-            openPhoto()
-        });
+        $('.icon.about').dblclick(function () {
+            openAbout()
+        });      
     }
 
 });

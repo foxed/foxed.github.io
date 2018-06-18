@@ -14,68 +14,66 @@
 <body class="noselect cursor">
   <div id="icons">
     <div id="github" class="icon github">
-      <div class="github">
-        <div class="icon_text"><a href="https://github.com/foxed" style="text-decoration:none">github</a></div>
-      </div>
+      <a href="https://github.com/foxed" style="cursor:default">
+        <div class="github">
+          <div class="icon_text">github</div>
+        </div>
+      </a>
     </div>
     <div id="blog" class="icon blog">
-      <div class="blog">
-        <div class="icon_text"><a href="https://foxed.ghost.io" style="text-decoration:none">blog</a></div>
-      </div>
+      <a href="https://foxed.ghost.io" style="cursor:default">
+        <div class="blog">
+          <div class="icon_text">blog</div>
+        </div>
+      </a>
     </div>
     <div id="linkedin" class="icon linkedin">
-      <div class="linkedin">
-        <div class="icon_text"><a href="https://www.linkedin.com/pub/alex-fox/20/157/185" style="text-decoration:none">linked</a>
-      </div>
-      </div>
+      <a href="https://www.linkedin.com/pub/alex-fox/20/157/185" style="cursor:default"> 
+        <div class="linkedin">
+          <div class="icon_text">linked</div>
+        </div>
+     </a>
     </div>
-    <div id="photo" class="icon photo">
-      <div class="photo">
-        <div class="icon_text"></div>
-      </div>
-    </div>
-    <div id="contact" class="icon contact">
-      <div class="contact">
-      </div>
-    </div>
-  </div>
-
-  <div id="about">
-    <div id="about_icon" class="about_icon">
+    <div id="about" class="icon about">
+      <div class="about">
       </div>
     </div>
   </div>
   
-  <div id="win_contact" class="win drag resize" hidden="hidden">
-    <div id="pnav_contact" >
-      <span>Contact</span>
+  <div id="win_about" class="win drag resize" hidden="hidden">
+    <div id="pnav_about" >
+      <span>⚔️⚔️⚔️⚔️⚔️⚔️⚔️⚔️⚔️⚔️</span>
       <img class="pbuttons close" src="images/close.png">
       <img class="pbuttons" src="images/max.png">
       <img class="pbuttons" src="images/min.png">
     </div>
-      <canvas id="contact_canvas" width="600" height="325">email me</canvas>
+    <div id="container">
+      <canvas id="about_canvas" width="600" height="325">email me</canvas>
+      <div id="overlay">
+        <p>my name is alex fox. i'm a software developer looking for a home. i currently reside just south of boston, ma. i've worked with ruby on rails in a professional capacity for just about 3.5 years, and have been learning javascript and react js on my own time. i also enjoy photography, history (especially medieval and ww2), true crime podcasts, and vidya games. lately, i have been fooling around with arch linux and getting more familiar with cyber secutiy protocols and practices. check out my github, linkedin, etc. (accessible via the icons on the left of the screen) and feel free to shoot me an email about anything and everything, but especially if you think i'd be fit for a company you're familiar with. thanks!</p>
+      </div>
+    </div>
     <div class="noter">
       <div class="notebox">alexdysonfox@gmail.com</div>
       <div class="notebox">&nbsp;</div>
     </div>
   </div>
-
- <div id="win_photo" class="win drag resize" hidden="hidden">
-    <div id="pnav_photo" >
+ <!-- <div id="win_photo" class="win drag resize" hidden="hidden">
+    <div id="pnav_photo">
       <span>photo</span>
       <img class="pbuttons close" src="images/close.png">
       <img class="pbuttons" src="images/max.png">
       <img class="pbuttons" src="images/min.png">
     </div>
-      <canvas id="photo_canvas" width="600" height="325">fsd</canvas>
+      <canvas width="600" height="325"></canvas>
     <div class="noter">
       <div class="notebox">random assortment of stuff i like</div>
       <div class="notebox">&nbsp;</div>
     </div>
-  </div>
+  </div> -->
 </body>
 <script src="scripts/dom.js"></script>
-<script src="scripts/contactCanvas.js"></script>
-<script src="scripts/photoCanvas.js"></script>
+<script src="scripts/aboutCanvas.js"></script>
+
 </html>
 

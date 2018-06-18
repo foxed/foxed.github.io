@@ -43,7 +43,7 @@ body{
     border-bottom-color: #000000;
   }
 
-  #win_contact{
+  #win_about{
     position: absolute;
     background: #C0C0C0;
     left: 250px  ;
@@ -74,7 +74,7 @@ body{
   }
 
 
-  #pnav_contact, #pnav_photo, #pnav_about{
+  #pnav_about, #pnav_photo, #pnav_about{
     margin: 2px 0 0 2px;
     background-color: #00007f;
     width: calc(100% - 6px);
@@ -132,19 +132,6 @@ body{
     border-bottom-color: #FFFFFF;
   }
 
-  #about{
-    position: absolute;
-    top: 150px;
-    left: 400px;
-    width: 55px;
-  }
-  .about_icon{
-    background: url("../images/computer.png") no-repeat;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 100%;
-  }
-
   #icons{  
     position: absolute;
     top: 30px;
@@ -155,7 +142,7 @@ body{
     margin-bottom: 100%;
   }
   .github{
-    background: url("../images/floppy.png") no-repeat;
+    background: url("../images/floppy2.png") no-repeat;
     width: 48px;
     height: 48px;
     margin-bottom: 20;
@@ -180,37 +167,36 @@ body{
   }
 
   .blog{
-    background: url("../images/TXT.png") no-repeat;
-    width: 32px;
-    height: 32px;
+    background: url("../images/cd.png") no-repeat;
+    width: 48px;
+    height: 48px;
     padding: 0;
   }
   .blog :hover .icon_text {
     display: inline;
     position: absolute;
     top: -5px;
-    left: 105%; 
+    left: 105%;
   }
   .linkedin{
-    background: url("../images/network3.png") no-repeat;
+    background: url("../images/connect.png") no-repeat;
     width: 48px;
     height: 48px;
     padding: 0;
-    text-decoration: none;
   }
   .linkedin :hover .icon_text {
     display: inline;
     position: absolute;
     top: -5px;
-    left: 105%;  
+    left: 105%; 
   }
-  .contact{
-    background: url("../images/contact.png") no-repeat;
+  .about{
+    background: url("../images/compu.png") no-repeat;
     width: 48px;
     height: 48px;
     padding: 0;
   }
-  .contact :hover .icon_text {
+  .about :hover .icon_text {
     display: inline;
     position: absolute;
     top: -5px;
@@ -235,7 +221,7 @@ body{
     cursor:url(../images/cursor.cur), auto;
   }
 
-  #contact_canvas{
+  #about_canvas{
     background-size:cover;
     width: calc(100% - 4px);
     height: calc(100% - 46px);
@@ -253,4 +239,11 @@ body{
     border: 1px solid #000000;
     border-right-color: #FFFFFF;
     border-bottom-color: #FFFFFF;
+  }
+
+  #container {
+    position: relative;
+  }
+  #container canvas, #overlay {
+    position: absolute;
   }
