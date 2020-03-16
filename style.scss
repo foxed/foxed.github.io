@@ -32,7 +32,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $courier-new;
-  color: white;
+  color: #E8E8E8;
 
   line-height: 1.5;
   margin: 1em 0 15px;
@@ -60,7 +60,6 @@ h3 {
 
 h4 {
   font-size: 18px;
-  color: $gray;
 }
 
 p {
@@ -68,11 +67,12 @@ p {
 }
 
 a {
-  color: $blue;
+  color: $cyan;
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
     color: $blue;
+    background-color: white;
   }
 }
 

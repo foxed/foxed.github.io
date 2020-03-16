@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GetNPUsers.py – alex fox – penetration tester</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.
+
+" />
+    <meta property="og:description" content="I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.
+
+" />
+    
+    <meta name="author" content="alex fox" />
+
+    
+    <meta property="og:title" content="GetNPUsers.py" />
+    <meta property="twitter:title" content="GetNPUsers.py" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="alex fox - penetration tester" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars0.githubusercontent.com/u/4664386?s=460&u=bb9aadc79501e5331befad1b55f057ffb59277a1&v=4" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">alex fox</a></h1>
+            <p class="site-description">penetration tester</p>
+          </div>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>GetNPUsers.py</h1>
+
+  <div class="entry">
+    <p>I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.</p>
+
+<p>While not necessarily a common vulnerability in the wild (as pre-authentication is enabled by default), I found learning about this vulnerability a paltable approach to understanding the basics of Kerberos ticketing.</p>
+
+<p>First, we need to familiarize ourselves with Kerberos. Kerberos is a protocol for authentication that is the default method of authorization used by Microsoft Windows. It uses tickets to authenticate.</p>
+
+<h4 id="how-does-kerberos-authenticate">How does Kerberos authenticate?</h4>
+
+<p>The client sends a request to the KDC (Key Distribution Center). The KDC creates a TGT (ticket-granting ticket) for the client and encrypts it using the client’s password as the key, and sends the encrypted TGT back to the client. If the client decrypts the TGT (with their password), they keep the decrypted TGT as proof of their (the client’s) identity.</p>
+
+<p>While not the default state, there is a vulnerable option available for Kerberos users: ‘Do not require Kerberos preauthentication’ (UF_DONT_REQUIRE_PREAUTH). When pre-authentication is enabled, a time stamp is encrypted using the user’s password hash as an encryption key. If the KDC reads a valid time while using the user’s hash to decrypt the time stamp, the KDC knows that the request isn’t a replay of the previous request. <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>If pre-authentication is disabled, an attacker can send a request for authentication. The KDC will return an encrypted TGT from which an attacker can retrieve the vulnerable user’s hash and crack it offline. The hash is in krb5asrep format. GetNPUsers.py is a script that does just that – it enumerates for users within an AD domain that have PREAUTH disabled, and retrieves a krb5asrep hash from the requested TGT.</p>
+
+<p><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py">GetNPUSers.py</a></p>
+
+<p>The proper usage of the command would look something like the following:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">root@kali:/impacket/examples/&gt; python GetNPUsers.py testAD.local/ <span class="nt">-usersfile</span> users.txt <span class="nt">-format</span> hashcat <span class="nt">-outputfile</span> hashes.testAD</code></pre></figure>
+
+<p>Here, the usersfile flag is pointing to a list of guessed or known users in the target Windows domain, “testAD.local”. If a user on the list has UF_DONT_REQUIRE_PREAUTH enabled, GetNPUsers.py receives a TGT from which a hash is then extracted and dumped into the hashes.testAD file. We can then attempt to crack the hash by using hashcat (as that is the output format we have chosen).</p>
+
+<h4 id="useful-reading">Useful reading</h4>
+
+<p><a href="https://www.harmj0y.net/blog/activedirectory/roasting-as-reps/">Roasting AS-REPS</a></p>
+
+<p><a href="https://www.roguelynn.com/words/explain-like-im-5-kerberos/">Explain like I’m five: Kerberos</a></p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://social.technet.microsoft.com/wiki/contents/articles/23559.kerberos-pre-authentication-why-it-should-not-be-disabled.aspx">Kerberos Pre-Authentication: Why It Should Not Be Disabled</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div>
+
+  <div class="date">
+    Written on March  3, 2020
+  </div>
+
+  
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/foxed"><i class="svg-icon github"></i></a>
+
+
+
+
+
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+
+  </body>
+</html>

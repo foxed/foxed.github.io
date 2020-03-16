@@ -66,7 +66,7 @@ html {
 body {
   background: #222;
   font: 16px/1.4 Courier;
-  color: #4AF626;
+  color: #45db25;
 }
 
 .container {
@@ -78,7 +78,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: Courier New;
-  color: white;
+  color: #E8E8E8;
   line-height: 1.5;
   margin: 1em 0 15px;
   padding: 0;
@@ -106,7 +106,6 @@ h3 {
 
 h4 {
   font-size: 18px;
-  color: #666;
 }
 
 p {
@@ -114,12 +113,13 @@ p {
 }
 
 a {
-  color: #4183C4;
+  color: #00FFFF;
   text-decoration: none;
   cursor: pointer;
 }
 a:hover, a:active {
   color: #4183C4;
+  background-color: white;
 }
 
 ul, ol {
@@ -166,12 +166,12 @@ img {
 
 ::-moz-selection {
   color: #000;
-  background: #eee;
+  background: #E8E8E8;
 }
 
 ::selection {
   color: #000;
-  background: #eee;
+  background: #E8E8E8;
 }
 
 .clearfix:before,
@@ -193,7 +193,7 @@ img {
 
 .masthead {
   padding: 20px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #E8E8E8;
 }
 @media screen and (max-width: 640px) {
   .masthead {
@@ -231,7 +231,7 @@ img {
 
 .site-name {
   margin: 0;
-  color: #4AF626;
+  color: #45db25;
   cursor: pointer;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
@@ -280,7 +280,7 @@ nav a {
 
 .posts > .post {
   padding-bottom: 2em;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #E8E8E8;
 }
 
 .posts > .post:last-child {
@@ -315,14 +315,15 @@ footer {
 }
 
 .highlight {
-  background-color: #efefef;
+  background-color: black;
   padding: 7px 7px 7px 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #222;
   -moz-box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
   box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
   margin: 20px 0 20px 0;
   overflow: scroll;
+  color: #E8E8E8;
 }
 
 code {

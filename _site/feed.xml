@@ -1,5 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-14T14:16:34-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">alex fox</title><subtitle>penetration tester</subtitle><entry><title type="html">You’re up and running!</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="You're up and running!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;p&gt;TEST TEST TEST.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-16T14:28:37-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">alex fox</title><subtitle>penetration tester</subtitle><entry><title type="html">GetNPUsers.py</title><link href="http://localhost:4000/GetNPUsers/" rel="alternate" type="text/html" title="GetNPUsers.py" /><published>2020-03-03T00:00:00-05:00</published><updated>2020-03-03T00:00:00-05:00</updated><id>http://localhost:4000/GetNPUsers</id><content type="html" xml:base="http://localhost:4000/GetNPUsers/">&lt;p&gt;I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.&lt;/p&gt;
+
+&lt;p&gt;While not necessarily a common vulnerability in the wild (as pre-authentication is enabled by default), I found learning about this vulnerability a paltable approach to understanding the basics of Kerberos ticketing.&lt;/p&gt;
+
+&lt;p&gt;First, we need to familiarize ourselves with Kerberos. Kerberos is a protocol for authentication that is the default method of authorization used by Microsoft Windows. It uses tickets to authenticate.&lt;/p&gt;
+
+&lt;h4 id=&quot;how-does-kerberos-authenticate&quot;&gt;How does Kerberos authenticate?&lt;/h4&gt;
+
+&lt;p&gt;The client sends a request to the KDC (Key Distribution Center). The KDC creates a TGT (ticket-granting ticket) for the client and encrypts it using the client’s password as the key, and sends the encrypted TGT back to the client. If the client decrypts the TGT (with their password), they keep the decrypted TGT as proof of their (the client’s) identity.&lt;/p&gt;
+
+&lt;p&gt;While not the default state, there is a vulnerable option available for Kerberos users: ‘Do not require Kerberos preauthentication’ (UF_DONT_REQUIRE_PREAUTH). When pre-authentication is enabled, a time stamp is encrypted using the user’s password hash as an encryption key. If the KDC reads a valid time while using the user’s hash to decrypt the time stamp, the KDC knows that the request isn’t a replay of the previous request. &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;If pre-authentication is disabled, an attacker can send a request for authentication. The KDC will return an encrypted TGT from which an attacker can retrieve the vulnerable user’s hash and crack it offline. The hash is in krb5asrep format. GetNPUsers.py is a script that does just that – it enumerates for users within an AD domain that have PREAUTH disabled, and retrieves a krb5asrep hash from the requested TGT.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py&quot;&gt;GetNPUSers.py&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The proper usage of the command would look something like the following:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;root@kali:/impacket/examples/&amp;gt; python GetNPUsers.py testAD.local/ &lt;span class=&quot;nt&quot;&gt;-usersfile&lt;/span&gt; users.txt &lt;span class=&quot;nt&quot;&gt;-format&lt;/span&gt; hashcat &lt;span class=&quot;nt&quot;&gt;-outputfile&lt;/span&gt; hashes.testAD&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Here, the usersfile flag is pointing to a list of guessed or known users in the target Windows domain, “testAD.local”. If a user on the list has UF_DONT_REQUIRE_PREAUTH enabled, GetNPUsers.py receives a TGT from which a hash is then extracted and dumped into the hashes.testAD file. We can then attempt to crack the hash by using hashcat (as that is the output format we have chosen).&lt;/p&gt;
+
+&lt;h4 id=&quot;useful-reading&quot;&gt;Useful reading&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.harmj0y.net/blog/activedirectory/roasting-as-reps/&quot;&gt;Roasting AS-REPS&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.roguelynn.com/words/explain-like-im-5-kerberos/&quot;&gt;Explain like I’m five: Kerberos&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://social.technet.microsoft.com/wiki/contents/articles/23559.kerberos-pre-authentication-why-it-should-not-be-disabled.aspx&quot;&gt;Kerberos Pre-Authentication: Why It Should Not Be Disabled&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.</summary></entry><entry><title type="html">You’re up and running!</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="You're up and running!" /><published>2014-03-03T00:00:00-05:00</published><updated>2014-03-03T00:00:00-05:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;p&gt;TEST TEST TEST.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/.png&quot; alt=&quot;_config.yml&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the &lt;a href=&quot;https://github.com/barryclark/jekyll-now&quot;&gt;Jekyll Now repository&lt;/a&gt; on GitHub.&lt;/p&gt;</content><author><name></name></author><summary type="html">TEST TEST TEST.</summary></entry></feed>
+&lt;p&gt;The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the &lt;a href=&quot;https://github.com/barryclark/jekyll-now&quot;&gt;Jekyll Now repository&lt;/a&gt; on GitHub.&lt;/p&gt;
+
+&lt;p&gt;test
+test
+ete
+tse
+tsetse&lt;/p&gt;</content><author><name></name></author><summary type="html">TEST TEST TEST.</summary></entry></feed>
