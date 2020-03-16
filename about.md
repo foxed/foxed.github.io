@@ -4,7 +4,7 @@ title: about
 permalink: /about/
 ---
 
-I worked as a software developer for four years before realizing I wanted to shift into the ever-growing, ever-more-relevant field of penetration testing. I find it combines my natural aptitude in writing and my ability to talk with people from all walks of life with the more technical stuff that I love to research and play with. 
+I worked as a software developer for four years before realizing I wanted to shift into the ever-growing, ever-more-relevant field of penetration testing. I find it combines my natural aptitude in writing and my ability to talk with people with the more technical stuff that I love to research and play with. 
 
 ### about the blog
 
