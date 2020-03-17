@@ -12,4 +12,4 @@ I write these blog posts primarily to help my own understanding of things I’ve
 
 ### Contact me
 
-[email@domain.com](mailto:alexdysonfox@gmail.com)
+[alexdysonfox@gmail.com](mailto:alexdysonfox@gmail.com)
