@@ -1,4 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-16T14:46:17-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">alex fox</title><subtitle>penetration tester</subtitle><entry><title type="html">GetNPUsers.py</title><link href="http://localhost:4000/GetNPUsers/" rel="alternate" type="text/html" title="GetNPUsers.py" /><published>2020-03-15T00:00:00-04:00</published><updated>2020-03-15T00:00:00-04:00</updated><id>http://localhost:4000/GetNPUsers</id><content type="html" xml:base="http://localhost:4000/GetNPUsers/">&lt;p&gt;I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-25T16:50:49-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">alex fox</title><subtitle>penetration tester</subtitle><entry><title type="html">SQL Injection</title><link href="http://localhost:4000/SQL-Injection/" rel="alternate" type="text/html" title="SQL Injection" /><published>2020-03-24T00:00:00-04:00</published><updated>2020-03-24T00:00:00-04:00</updated><id>http://localhost:4000/SQL-Injection</id><content type="html" xml:base="http://localhost:4000/SQL-Injection/">&lt;p&gt;A basic overview on SQL Injection.&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-sql&quot;&gt;What is SQL?&lt;/h4&gt;
+
+&lt;p&gt;SQL stands for “Structured Query Language”, which is used to communicate with a database. SQL statements are instructions for creating, retrieving, updating/altering and removing data within the database.&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-sql-injection&quot;&gt;What is SQL Injection?&lt;/h4&gt;
+
+&lt;p&gt;SQL Injection is a type of injection attack that consists of insertion and injection of an SQL query via user-controlled input (aka untrusted sources). Web applications generally have portions of logic that are controlled by the results of a query. When these queries rely on user-supplied input (as many do), they can be improperly escaped, filtered, or validated, which results in the application being vulnerable to SQL Injection. An attacker can manipulate said vulnerable query to alter application logic.&lt;/p&gt;
+
+&lt;p&gt;SQL Injection can result in bypassed authentication, control of the database, disclosure of sensitive data, and in some scenarios an attacker can run commands on the vulnerable system (sometimes resulting in a reverse shell).&lt;/p&gt;
+
+&lt;h4 id=&quot;example-of-basic-sql-injection&quot;&gt;Example of (basic) SQL Injection&lt;/h4&gt;
+
+&lt;p&gt;Say we have a web application that uses MySQL for its database. The application requires the user to log in. We log in with the username ‘hacker’ and the password ‘goodpassword.’ The corresponding SQL query would look something like the following:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;users&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hacker&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;goodpassword&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The user is supplying the values for the username and password to log into the application. This query causes the database to check for records within the users table where the username value is equal to hacker and the password value is equal to goodpassword. If the database finds a record that matches those values, the login is successful. If, say, the password value is incorrect, it may return an error message saying that the username/password combination is incorrect, and ‘hacker’ is unable to log in.&lt;/p&gt;
+
+&lt;p&gt;So, we know that if the query returns at least one result, we’re logged in (as it would have found the corresponding record). If it returns no result, we’re still not in. Let’s take a wild guess here and assume that there is an ‘admin’ user, but we don’t know the password. Can we still log in? Yes.&lt;/p&gt;
+
+&lt;p&gt;First, we need to break out of the query at hand using a single-quote. Then, we want to supply a new SQL statement that begins with OR, which in this instance I am using || as a substitute for &lt;strong&gt;OR&lt;/strong&gt; (old habits die hard). Next, we supply the meat of our statement, setting an ALWAYS TRUE statement with &lt;strong&gt;1=1&lt;/strong&gt;. Finally, we comment out the remaining query with #. Note that -- can be used for commenting in SQL too.&lt;/p&gt;
+
+&lt;p&gt;We submit the following into the username login panel:
+admin’||1=1#&lt;/p&gt;
+
+&lt;p&gt;And whatever in the password panel.&lt;/p&gt;
+
+&lt;p&gt;Our new SQL query looks something like:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;admin&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’’&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;OR&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Everything after # is ignored (due to it being commented out with #), and we get logged in because the query retrieved at least one result by way of the statement being set to TRUE. In fact, in this example, we don’t even need a valid username, due to the OR statement. We are setting the whole statement to TRUE, and due to this I believe we get logged in as whoever possesses the first user id in the database (which generally corresponds to the admin user). *&lt;/p&gt;
+
+&lt;p&gt;* &lt;em&gt;I’m working off my knowledge of these things and not actively hacking into a vulnerable web app so this (who we get logged in as) may be incorrect.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;how-to-prevent-sql-injection&quot;&gt;How to prevent SQL Injection?&lt;/h4&gt;
+
+&lt;p&gt;Prepared statements (aka parameterized queries) are the safest route in protecting against SQL injection, but they are not infallible. A prepareted statement is a means of pre-compiling an SQL statement so that all that needs to be supplied on the user’s end are the parameters in order for the statement to be executed. Think of it as a template, with the application/developers specifying the query’s structure. The server preprocesses the request without parameters so that it knows what type of query it is (contrast this with dynamic queries, which are processed at run-time and therefore can be maliciously altered to suit the attacker’s needs).&lt;/p&gt;
+
+&lt;p&gt;Prepared statements ensure that an attacker is not able to change the intent of a query, due to the query having already been defined. How you write parameterized queries depends on what language your web application is written in and it goes beyond the scope of this wee blog post, but essentially, you construct an SQL query template with certain values (aka parameters) left unspecified, with ‘?’ used for the value placeholders of said parameters. The database parses and compiles the SQL query and stores the result without executing it. When a user is interacting with the application and does an action that invokes the precompiled query, they supply their value for the parameter(s) (e.g. username and password), and the application binds the values to the parameters and executes the statement.&lt;/p&gt;
+
+&lt;p&gt;Let’s revisit the above example.&lt;/p&gt;
+
+&lt;p&gt;The attacker has submitted the username with a value of &lt;strong&gt;‘Admin OR 1=1 #&lt;/strong&gt; in hopes of altering the query to bypass authentication. If a prepared statement is being used, however, instead of the SQL query being altered, the DB will search for a user with a username of &lt;strong&gt;‘Admin OR 1=1 #&lt;/strong&gt;. The attacker would be unable to escape out of the SQL statement at hand and append their own SQL to do a malicious request.&lt;/p&gt;
+
+&lt;p&gt;OWASP has a great reference guide to get an idea of how parameterized queries are used, amongst other things:
+&lt;a href=&quot;https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html&quot;&gt;OWASP Cheatsheet&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Prepared statements are not infallible, however. You must still ensure that proper escaping is used everywhere&lt;/p&gt;
+
+&lt;p&gt;In some scenarios (depending on the type of query being performed), prepared statements are not useful. In those cases, such as an ORDER BY query, whitelisting permitted input logic is the way to go.&lt;/p&gt;
+
+&lt;h4 id=&quot;useful-reading&quot;&gt;Useful Reading&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://portswigger.net/web-security/sql-injection&quot;&gt;Portswigger SQL Injection&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The Web Application Hacker’s Handbook by Dafydd Stuttard and Marcus Pinto&lt;/p&gt;</content><author><name></name></author><summary type="html">A basic overview on SQL Injection.</summary></entry><entry><title type="html">GetNPUsers.py</title><link href="http://localhost:4000/GetNPUsers/" rel="alternate" type="text/html" title="GetNPUsers.py" /><published>2020-03-15T00:00:00-04:00</published><updated>2020-03-15T00:00:00-04:00</updated><id>http://localhost:4000/GetNPUsers</id><content type="html" xml:base="http://localhost:4000/GetNPUsers/">&lt;p&gt;I’ve been trying to familiarize myself with the numerous tools found in the Impacket library, many of which exploit vulnerabilities within Windows Active Directory structures. One such tool I have used in the past but failed to really understand is “GetNPUsers.py”. This post is a quick lesson on Kerberos ticketing and how GetNPUsers.py exploits users without pre-authentication enabled.&lt;/p&gt;
 
 &lt;p&gt;While not necessarily a common vulnerability in the wild (as pre-authentication is enabled by default), I found learning about this vulnerability a paltable approach to understanding the basics of Kerberos ticketing.&lt;/p&gt;
 
