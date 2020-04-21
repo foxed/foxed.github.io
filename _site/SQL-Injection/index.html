@@ -79,7 +79,7 @@
 
 <p>So, we know that if the query returns at least one result, we’re logged in (as it would have found the corresponding record). If it returns no result, we’re still not in. Let’s take a wild guess here and assume that there is an ‘admin’ user, but we don’t know the password. Can we still log in? Yes.</p>
 
-<p>First, we need to break out of the query at hand using a single-quote. Then, we want to supply a new SQL statement that begins with OR, which in this instance I am using || as a substitute for <strong>OR</strong> (old habits die hard). Next, we supply the meat of our statement, setting an ALWAYS TRUE statement with <strong>1=1</strong>. Finally, we comment out the remaining query with #. Note that -- can be used for commenting in SQL too.</p>
+<p>First, we need to break out of the query at hand using a single-quote. Then, we want to supply a new SQL statement that begins with OR, which in this instance I am using || as a substitute for <strong>OR</strong> (old habits die hard). Next, we supply the meat of our statement, setting an ALWAYS TRUE statement with <strong>1=1</strong>. Finally, we comment out the remaining query with #. Note that -- can also be used for commenting in SQL.</p>
 
 <p>We submit the following into the username login panel:
 admin’||1=1#</p>
@@ -102,7 +102,7 @@ admin’||1=1#</p>
 
 <p>Let’s revisit the above example.</p>
 
-<p>The attacker has submitted the username with a value of <strong>‘Admin OR 1=1 #</strong> in hopes of altering the query to bypass authentication. If a prepared statement is being used, however, instead of the SQL query being altered, the DB will search for a user with a username of <strong>‘Admin OR 1=1 #</strong>. The attacker would be unable to escape out of the SQL statement at hand and append their own SQL to do a malicious request.</p>
+<p>The attacker has submitted a username with a value of <strong>‘Admin OR 1=1 #</strong> in hopes of altering the query to bypass authentication. If a prepared statement is being used, however, instead of the SQL query being altered, the DB will search for a user with a username of <strong>‘Admin OR 1=1 #</strong>. The attacker would be unable to escape out of the SQL statement at hand and append their own SQL to do a malicious request.</p>
 
 <p>OWASP has a great reference guide to get an idea of how parameterized queries are used, amongst other things:
 <a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">OWASP Cheatsheet</a></p>
