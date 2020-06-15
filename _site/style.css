@@ -117,7 +117,7 @@ p {
 }
 
 a {
-  color: #c7bce6;
+  color: #00FFFF;
   text-decoration: none;
   cursor: pointer;
 }
@@ -165,7 +165,7 @@ img {
 
 .date {
   font-style: italic;
-  color: #666;
+  color: #e6faf9;
 }
 
 ::-moz-selection {
@@ -245,7 +245,7 @@ img {
 
 .site-description {
   margin: -5px 0 0 0;
-  color: #E8E8E8;
+  color: #e6faf9;
   font-size: 16px;
 }
 @media screen and (max-width: 640px) {
@@ -275,6 +275,8 @@ nav a {
   text-align: right;
   font-weight: 300;
   letter-spacing: 1px;
+  font-weight: bold;
+  font-family: Courier New;
 }
 @media screen and (max-width: 640px) {
   nav a {

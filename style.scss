@@ -35,7 +35,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: $source-code;
   color: $yellow;
-
   line-height: 1.5;
   margin: 1em 0 15px;
   padding: 0;
@@ -69,7 +68,7 @@ p {
 }
 
 a {
-  color: $violet;
+  color: $lightBlue;
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
@@ -118,7 +117,7 @@ img {
 
 .date {
   font-style: italic;
-  color: $gray;
+  color: $paleBlue;
 }
 
 // Specify the color of the selection
@@ -203,7 +202,7 @@ img {
 
 .site-description {
   margin: -5px 0 0 0;
-  color: $lightGray;
+  color: $paleBlue;
   font-size: 16px;
 
   @include mobile {
@@ -231,6 +230,8 @@ nav {
     text-align: right;
     font-weight: 300;
     letter-spacing: 1px;
+    font-weight: bold;
+    font-family: $courier-new;
 
     @include mobile {
       margin: 0 10px;
