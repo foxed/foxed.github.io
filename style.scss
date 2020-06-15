@@ -18,21 +18,23 @@ html {
 }
 
 body {
-	background: $darkerGray;
-  font: 16px/1.4 $courier;
-  color: $termGreen;
+	background: $indigo;
+  font: 17px/1.6 $source-code;
+  //   font: 16px/1.4 $source-code;
+  color: $white;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
+  max-width: 840px;
+  // og: 740;
   padding: 0 10px;
   width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $courier-new;
-  color: #E8E8E8;
+  font-family: $source-code;
+  color: $yellow;
 
   line-height: 1.5;
   margin: 1em 0 15px;
@@ -67,11 +69,11 @@ p {
 }
 
 a {
-  color: $cyan;
+  color: $violet;
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
-    color: $blue;
+    color: $indigo;
     background-color: white;
   }
 }
@@ -121,11 +123,11 @@ img {
 
 // Specify the color of the selection
 ::-moz-selection {
-  color: $black;
+  color: $indigo;
   background: $lightGray;
 }
 ::selection {
-  color: $black;
+  color: $indigo;
   background: $lightGray;
 }
 
@@ -191,9 +193,9 @@ img {
 
 .site-name {
   margin: 0;
-  color: $termGreen;
+  color: $lightGray;
   cursor: pointer;
-  font-family: $helveticaNeue;
+  font-family: $source-code;
   font-weight: 300;
   font-size: 28px;
   letter-spacing: 1px;
@@ -201,7 +203,7 @@ img {
 
 .site-description {
   margin: -5px 0 0 0;
-  color: $gray;
+  color: $lightGray;
   font-size: 16px;
 
   @include mobile {

@@ -68,21 +68,21 @@ html {
 }
 
 body {
-  background: #222;
-  font: 16px/1.4 Courier;
-  color: #45db25;
+  background: #4b15bf;
+  font: 17px/1.6 "Source Code Pro", monospaced;
+  color: #fff;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
+  max-width: 840px;
   padding: 0 10px;
   width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Courier New;
-  color: #E8E8E8;
+  font-family: "Source Code Pro", monospaced;
+  color: #f2ff00;
   line-height: 1.5;
   margin: 1em 0 15px;
   padding: 0;
@@ -117,12 +117,12 @@ p {
 }
 
 a {
-  color: #00FFFF;
+  color: #c7bce6;
   text-decoration: none;
   cursor: pointer;
 }
 a:hover, a:active {
-  color: #4183C4;
+  color: #4b15bf;
   background-color: white;
 }
 
@@ -169,12 +169,12 @@ img {
 }
 
 ::-moz-selection {
-  color: #000;
+  color: #4b15bf;
   background: #E8E8E8;
 }
 
 ::selection {
-  color: #000;
+  color: #4b15bf;
   background: #E8E8E8;
 }
 
@@ -235,9 +235,9 @@ img {
 
 .site-name {
   margin: 0;
-  color: #45db25;
+  color: #E8E8E8;
   cursor: pointer;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Source Code Pro", monospaced;
   font-weight: 300;
   font-size: 28px;
   letter-spacing: 1px;
@@ -245,7 +245,7 @@ img {
 
 .site-description {
   margin: -5px 0 0 0;
-  color: #666;
+  color: #E8E8E8;
   font-size: 16px;
 }
 @media screen and (max-width: 640px) {
