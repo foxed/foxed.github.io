@@ -3,13 +3,13 @@ layout: post
 title: Deserialization
 ---
 
-What is Deserialization?
+<h3>What is serialization?</h3>
 
-Modern applications are often decentralized and as such, utilize multiple components (such as microservices) which often talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.
+To understand deserialization, we must understand serialization. Modern applications are often decentralized and as such, utilize multiple components (such as microservices) that talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.
 
 For example, JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.
 
-We first need to require ruby’s <b>“json”</b> module. 
+Let's serialize something simple using ruby and json. We first need to require the <b>“json”</b> module. 
 
 {% highlight rb %}
 irb(main):002:0> require 'json'
@@ -29,7 +29,9 @@ This is a straightforward example of serialization, in which our data object of 
 
 Serialization is common in architectures that include APIs, microservices, and client-side MVC. When the data being serialized is trusted (such as, by the system), there is no issue. However, when a user can control or modify input, deserialization vulnerabilities can arise. The conversion back from string (or whatever form the serialized data is stored as) to binary can be tampered with and result in remote code execution. It’s important to note that not all forms of serialization involve serializing to strings, for example, one method of serializing data in python uses the <b>pickle</b> module. 
 
-Let’s take a look at the Python docs. Python’s <A href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing. 
+Python’s <A href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing. 
+
+At the top of the docs is a big fat warning: <b>The pickle module is not secure. Only unpickle data you trust.</b> We'll take a look at a flask application that fails to adhere to such a warning.
 
 <h3>Unsafe Deserialization: HTB's <i>Canape</i></h3>
 
@@ -57,9 +59,6 @@ We look at the vulnerable code as we craft our exploit. We need to import the fo
 * Requests: to made requests to the vulnerable flask application
 * Md5: to name our file properly (following the flask app's file-naming convention)
 * cPickle: <b>cPickle</b> is an optimized version of the pickle module written in C, and it is what our vulnerable application is using, so we will use it in the exploit
-
-Note that there is nothing inherently dangerous about the <b>pickle</b> module, it’s only dangerous when you allow an untrusted source to be pickled/unpickled--as this web application is doing. 
-
 
 Our exploit code:
 ![Exploit code](/images/canape/exploit.png)

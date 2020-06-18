@@ -14,10 +14,10 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="What is Deserialization?
+    <meta name="description" content="What is serialization?
 
 " />
-    <meta property="og:description" content="What is Deserialization?
+    <meta property="og:description" content="What is serialization?
 
 " />
     
@@ -62,13 +62,13 @@
   <h1>Deserialization</h1>
 
   <div class="entry">
-    <p>What is Deserialization?</p>
+    <h3>What is serialization?</h3>
 
-<p>Modern applications are often decentralized and as such, utilize multiple components (such as microservices) which often talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.</p>
+<p>To understand deserialization, we must understand serialization. Modern applications are often decentralized and as such, utilize multiple components (such as microservices) that talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.</p>
 
 <p>For example, JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.</p>
 
-<p>We first need to require ruby’s <b>“json”</b> module.</p>
+<p>Let’s serialize something simple using ruby and json. We first need to require the <b>“json”</b> module.</p>
 
 <figure class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">002</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="nb">require</span> <span class="s1">'json'</span>
 <span class="o">=&gt;</span> <span class="kp">true</span>
@@ -86,7 +86,9 @@
 
 <p>Serialization is common in architectures that include APIs, microservices, and client-side MVC. When the data being serialized is trusted (such as, by the system), there is no issue. However, when a user can control or modify input, deserialization vulnerabilities can arise. The conversion back from string (or whatever form the serialized data is stored as) to binary can be tampered with and result in remote code execution. It’s important to note that not all forms of serialization involve serializing to strings, for example, one method of serializing data in python uses the <b>pickle</b> module.</p>
 
-<p>Let’s take a look at the Python docs. Python’s <a href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing.</p>
+<p>Python’s <a href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing.</p>
+
+<p>At the top of the docs is a big fat warning: <b>The pickle module is not secure. Only unpickle data you trust.</b> We’ll take a look at a flask application that fails to adhere to such a warning.</p>
 
 <h3>Unsafe Deserialization: HTB's <i>Canape</i></h3>
 
@@ -117,8 +119,6 @@
   <li>Md5: to name our file properly (following the flask app’s file-naming convention)</li>
   <li>cPickle: <b>cPickle</b> is an optimized version of the pickle module written in C, and it is what our vulnerable application is using, so we will use it in the exploit</li>
 </ul>
-
-<p>Note that there is nothing inherently dangerous about the <b>pickle</b> module, it’s only dangerous when you allow an untrusted source to be pickled/unpickled–as this web application is doing.</p>
 
 <p>Our exploit code:
 <img src="/images/canape/exploit.png" alt="Exploit code" /></p>
