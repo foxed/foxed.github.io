@@ -32,7 +32,7 @@ body {
   width: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, {
   font-family: $source-code;
   color: $yellow;
   line-height: 1.5;
@@ -74,6 +74,19 @@ a {
   &:hover, &:active {
     color: $indigo;
     background-color: white;
+  }
+}
+
+h6 {
+  font-family: $courier-new;
+  color: red;
+  line-height: 1.5;
+  font-weight: bold;
+  margin: 1em 0 15px;
+  padding: 0;
+
+  @include mobile {
+    line-height: 1.4;
   }
 }
 

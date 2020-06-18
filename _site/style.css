@@ -68,7 +68,7 @@ html {
 }
 
 body {
-  background: #4b15bf;
+  background: #1200d9;
   font: 17px/1.6 "Source Code Pro", monospaced;
   color: #fff;
 }
@@ -80,15 +80,15 @@ body {
   width: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5 {
   font-family: "Source Code Pro", monospaced;
-  color: #f2ff00;
+  color: #fbec00;
   line-height: 1.5;
   margin: 1em 0 15px;
   padding: 0;
 }
 @media screen and (max-width: 640px) {
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5 {
     line-height: 1.4;
   }
 }
@@ -122,8 +122,22 @@ a {
   cursor: pointer;
 }
 a:hover, a:active {
-  color: #4b15bf;
+  color: #1200d9;
   background-color: white;
+}
+
+h6 {
+  font-family: Courier New;
+  color: red;
+  line-height: 1.5;
+  font-weight: bold;
+  margin: 1em 0 15px;
+  padding: 0;
+}
+@media screen and (max-width: 640px) {
+  h6 {
+    line-height: 1.4;
+  }
 }
 
 ul, ol {
@@ -169,12 +183,12 @@ img {
 }
 
 ::-moz-selection {
-  color: #4b15bf;
+  color: #1200d9;
   background: #E8E8E8;
 }
 
 ::selection {
-  color: #4b15bf;
+  color: #1200d9;
   background: #E8E8E8;
 }
 

