@@ -5,9 +5,9 @@ title: Deserialization
 
 <h3>What is serialization?</h3>
 
-To understand deserialization, we must understand serialization. Modern applications are often decentralized and as such, utilize multiple components (such as microservices) that talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.
+Modern applications are often decentralized and as such, utilize multiple components (such as microservices) that talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.
 
-For example, JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.
+JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.
 
 Let's serialize something simple using ruby and json. We first need to require the <b>“json”</b> module. 
 
@@ -27,11 +27,11 @@ irb(main):007:0>
 
 This is a straightforward example of serialization, in which our data object of a hash is being converted into strings by way of the <b>to_json</b> method. This makes our data language agnostic and ready to be stored in a file. 
 
-Serialization is common in architectures that include APIs, microservices, and client-side MVC. When the data being serialized is trusted (such as, by the system), there is no issue. However, when a user can control or modify input, deserialization vulnerabilities can arise. The conversion back from string (or whatever form the serialized data is stored as) to binary can be tampered with and result in remote code execution. It’s important to note that not all forms of serialization involve serializing to strings, for example, one method of serializing data in python uses the <b>pickle</b> module. 
+Serialization is common in architectures that include APIs, microservices, and client-side MVC. When the data being serialized is trusted (such as, by the system), there is no issue. However, when a user can control or modify input, deserialization vulnerabilities can arise. The conversion back from string (or whatever form the serialized data is stored as) to binary can be tampered with and result in remote code execution. It’s important to note that not all forms of serialization involve serializing to strings, for example, python's  <b>pickle</b> module serializes objects into byte streams which are python-specific and not human-readable. 
 
 Python’s <A href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing. 
 
-At the top of the docs is a big fat warning: <b>The pickle module is not secure. Only unpickle data you trust.</b> We'll take a look at a flask application that fails to adhere to such a warning.
+At the top of the docs is a big fat warning: <b>The pickle module is not secure. Only unpickle data you trust.</b> We'll take a look at a flask application that fails to adhere to such a warning, thereby introducing a deserialization vulnerability within the application.
 
 <h3>Unsafe Deserialization: HTB's <i>Canape</i></h3>
 
@@ -43,11 +43,11 @@ The vulnerable page in question:
 The vulnerable code in question:
 ![Flask app code](/images/canape/pickle-code-vuln.png)
 
-This is not the full <b>\_\_init\_\_.py</b> file but it contains what we're interested in. On the webpage we can see that we can submit a Simpsons’ character and a quote. Looking at the code, specifically the “submit” route, we can see that on a form submission the application looks for a character and quote. It then checks if the character is whitelisted. If the submitted character is whitelisted, then the code goes on to process the quote (regardless if the quote is valid; it only checks if the quote is empty or not), and stores the data in a pickle file with an md5 filename. 
+This is not the full <b>\_\_init\_\_.py</b> file, but it contains what we're interested in. On the webpage we can see that we can submit a Simpsons’ character and a quote. Looking at the code, specifically the “submit” route, we can see that on a form submission the application looks for a character and quote. It then checks if the character is whitelisted. If the submitted character is whitelisted, then the code goes on to process the quote (as long as the quote submission is not empty), and stores the data in a pickle file with an md5 filename. 
 
-The dangerous portion of this application is the above combined with the check route, which proceeds to open the file containing the user-submitted character and quote depending on an ‘id’ POST parameter. It then deserializes the user-submitted data by way of <b>cPickle.loads(data)</b>. Thankfully, we know exactly how to name our file: <b>p_id = md5(char + quote).hexidigest()</b>.
+The dangerous portion of this application is found within the check route, which proceeds to open the file containing the user-submitted character and quote depending on an ‘id’ POST parameter. It then fails to sanitize the user-submitted data and proceeses to deserializes it via <b>cPickle.loads(data)</b>. As long as we have the proper id (<b>p_id = md5(char + quote).hexidigest()</b>) for the /check post parameter, it stands to reason that the application will deserialize our data.
 
-So, to recap, we will be taking the following steps to exploit this unsafe deserialization:
+To recap, we will be taking the following steps to exploit this unsafe deserialization:
 1. Submit a valid character name
 1. Submit a quote that is actually an os.system command that connects to our local listener
 1. The application will load our data using <b>cPickle.loads(data)</b>
