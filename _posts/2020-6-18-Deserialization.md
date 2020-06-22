@@ -5,11 +5,11 @@ title: Deserialization
 
 <h3>What is serialization?</h3>
 
-Modern applications are often decentralized and as such, utilize multiple components (such as microservices) that talk to one another and share and store data. Serialization is used to convert an object into something that can be shared across a network or stored in a file.
+The need to store and transfer object states or data structures is a very common occurence in modern applications. Serialization is process of converting said objects into something that can be shared across a network or stored in a file (such as a stream of bytes, or a string).
 
 JSON is a popular choice for serializing complex data objects into simple strings so that they might be transported or stored. The restoration of serialized data back into their complex object form is known as deserialization.
 
-Let's serialize something simple using ruby and json. We first need to require the <b>“json”</b> module. 
+Let's serialize something simple using Ruby and Json. We first need to require the <b>“json”</b> module. 
 
 {% highlight rb %}
 irb(main):002:0> require 'json'
@@ -31,7 +31,7 @@ Serialization is common in architectures that include APIs, microservices, and c
 
 Python’s <A href="https://docs.python.org/3/library/pickle.html">pickle module</a> implements binary protocol for serializing and deserializing a python object. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream (from a binary file or bytes-like object) is converted back into an object hierarchy. In other words, pickling == serializing and depickling == deserializing. 
 
-At the top of the docs is a big fat warning: <b>The pickle module is not secure. Only unpickle data you trust.</b> We'll take a look at a flask application that fails to adhere to such a warning, thereby introducing a deserialization vulnerability within the application.
+At the top of the <b>pickle</b> docs is a big fat warning: <b>The pickle module is not secure. Only unpickle data you trust.</b> We'll take a look at a flask application that fails to adhere to such a warning, thereby introducing a deserialization vulnerability within the application.
 
 <h3>Unsafe Deserialization: HTB's <i>Canape</i></h3>
 
@@ -85,7 +85,7 @@ We are splitting the character and quote on the exclamation point, meaning, ever
 We are naming our file following the conventions set out in the flask application.
 
 <h6>requests.post('http://10.10.10.70/submit', data={'character': char, 'quote': quote})</h6>
-We are submitting a post request to the submit page, with our character and quote
+We are submitting a post request to the submit page, with our character and quote.
 
 <h6>requests.post('http://10.10.10.70/check', data={'id': p_id})</h6>
 We are submitting a post request to the vulnerable check page, with the id of our pickled file. This triggers the vulnerable <b>cPickle.loads(data)</b>, which deserializes our data and executes the connection back to our reverse shell.
