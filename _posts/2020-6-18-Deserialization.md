@@ -76,19 +76,19 @@ We are constructing a pickle that, upon unpickling, will execute:
 For whatever reason I'm partial to the above one-liner, though it's likely poor practice to assume netcat is on machines. From my previous experience of working on this box, I know the above will execute. However, if this wasn't the case, there are plenty of other options for getting a shell, including calling upon python's <b>subprocess</b> module.
 
 <h6>cPickle.dumps</h6>
-Returns the pickled object as a bytes object (meaning, it is serialized). 
+Returns the pickled representation of the object as a string (instead of writing it to a file). 
 
 <h6>char, quote = sc.split(“!”)</h6>
-We are splitting the character and quote on the exclamation point, meaning, everything before the exclamation point is equal to the character (homer), everything after is the quote. We need to do this to adhere to the check performed on the character parameter.
+We are splitting the character and quote on the exclamation point, meaning, everything before the exclamation point is equal to the character (homer), everything after is the quote. We need to do this to adhere to the whitelisting check performed on the character parameter. We can't submit the character as a raw string because c.Pickle(loads) will not accept a raw string, even if it's concatonated to the pickled quote. We could technically pickle the character separately from the quote but I found it easier to do it this way, as both the character and quote are being pickled via <b>cPickle.dumps</b>b>.
 
 <h6>p_id = md5(char + quote).hexdigest()</h6>
-We are naming our file following the conventions set out in the flask application.
+We combine the character and quote values and take their MD5 digest to ensure we have the correct 'id' parameter.
 
 <h6>requests.post('http://10.10.10.70/submit', data={'character': char, 'quote': quote})</h6>
 We are submitting a post request to the submit page, with our character and quote.
 
 <h6>requests.post('http://10.10.10.70/check', data={'id': p_id})</h6>
-We are submitting a post request to the vulnerable check page, with the id of our pickled file. This triggers the vulnerable <b>cPickle.loads(data)</b>, which deserializes our data and executes the connection back to our reverse shell.
+We are submitting a post request to the vulnerable check page, with the md5 id of our pickle. This triggers the vulnerable <b>cPickle.loads(data)</b>, which deserializes our data and executes the connection back to our reverse shell.
 
 Now we will run our exploit, and voila, we have a shell!
 
