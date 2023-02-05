@@ -9,6 +9,17 @@
   <script src="scripts/jquery-3.2.1.min.js"></script>
   <script src="scripts/jquery-ui.min.js"></script>
 
+  <script>
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        window.open('/html/mobile.html', '_self');
+      }
+
+      // var theme = getCurrentTheme();
+
+      // $('head').append('<link rel="stylesheet" type="text/css" href="/web/css/theme-new.css">');
+      // $('head').append('<link rel="stylesheet" type="text/css" href="/web/css/theme-old.css">');
+    </script>
+
 </head>
 
 <body class="noselect cursor">
@@ -40,6 +51,7 @@
         </p>
           <div class="email">
             email me: <a href="mailto:alexfoxauthor@gmail.com" style="text-decoration:none">📧</a> / alexfoxauthor@gmail.com
+            <br>
             twitter: <a href="https://twitter.com/afoxwrites">@afoxwrites</a>
           </div>
           <p></p>
