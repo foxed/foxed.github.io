@@ -8,27 +8,30 @@
   <link rel="stylesheet" type="text/css" href="public/jquery-ui.css"/>
   <script src="scripts/jquery-3.2.1.min.js"></script>
   <script src="scripts/jquery-ui.min.js"></script>
-
-  <script>
-      if (/Mobi|Android/i.test(navigator.userAgent)) {
-        window.open('/html/mobile.html', '_self');
-      }
-
-      // var theme = getCurrentTheme();
-
-      // $('head').append('<link rel="stylesheet" type="text/css" href="/web/css/theme-new.css">');
-      // $('head').append('<link rel="stylesheet" type="text/css" href="/web/css/theme-old.css">');
-    </script>
-
 </head>
-
 <body class="noselect cursor">
-		<div id="blog" class="icon blog">
+  <div id="icons">
+    <div id="github" class="icon github">
+      <a href="https://foxed.github.io/stories.html" style="cursor:default">
+        <div class="github">
+          <div class="icon_text">stories</div>
+        </div>
+      </a>
+    </div>
+    <div id="blog" class="icon blog">
+      <a href="/blog/" style="cursor:default">
       <a href="https://foxed.github.io/blog" style="cursor:default">
         <div class="blog">
           <div class="icon_text">blog</div>
         </div>
       </a>
+    </div>
+    <div id="linkedin" class="icon linkedin">
+      <a href="" style="cursor:default">
+        <div class="">
+          <div class="icon_text">other</div>
+        </div>
+     </a>
     </div>
     <div id="about" class="icon about">
       <div class="about">
@@ -51,7 +54,7 @@
         </p>
           <div class="email">
             email me: <a href="mailto:alexfoxauthor@gmail.com" style="text-decoration:none">📧</a> / alexfoxauthor@gmail.com
-            <br>
+            <p></p>
             twitter: <a href="https://twitter.com/afoxwrites">@afoxwrites</a>
           </div>
           <p></p>
@@ -65,6 +68,4 @@
 </body>
 <script src="scripts/dom.js"></script>
 <script src="scripts/aboutCanvas.js"></script>
-
 </html>
-
