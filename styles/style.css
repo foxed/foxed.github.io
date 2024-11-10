@@ -1,0 +1,95 @@
+ body{
+	max-width: 800px;
+	padding: 20px 20px;
+	margin: 0 auto;
+
+}
+
+
+img{
+	padding: 10px 10px 10px 10px;
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 800px;
+}
+
+hr{
+    width: 50%;
+}
+
+b, strong {
+   color: black;
+   }
+.cinzel-<uniquifier> {
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+
+.inline{
+	float: left;
+	padding-top: 40px;
+	padding-right: 20px;
+    width: 30%;
+}
+
+.gallery{
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: white;
+	margin: 0 auto;
+	width: 95%;
+	max-width: 650px;
+}
+
+.menu{
+	word-spacing: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.block-paragraph{
+    font-size: 14px;
+    text-align: left;
+    line-height: 2em;
+    color: grey;
+}
+
+.block-paragraph2{
+    font-size: 14px;
+    text-align: left;
+    line-height: 2em;
+    color: red;
+}
+
+.background {
+ background-image: url("../images/silenius2.png");
+ background-color: #cccccc;
+}
+
+p {
+	font-size: 14px;
+	font-family: "Space Mono", monospace;
+	font-weight: 400;
+	font-style: normal;
+	line-height: 1.5em;
+    text-align: center;
+}
+
+a{
+	color: black;
+	font-family: "Space Mono", monospace;
+}
+
+a:hover, a:active {
+  background-color: red;
+}
+h3{
+    font-family: "Cinzel", monospace;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
